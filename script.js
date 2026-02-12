@@ -22,18 +22,61 @@ envelope.addEventListener("click", () => {
 
 // Logic to move the NO btn
 
-noBtn.addEventListener("mouseover", () => {
-    const min = 200;
-    const max = 200;
-
-    const distance = Math.random() * (max - min) + min;
-    const angle = Math.random() * Math.PI * 2;
-
-    const moveX = Math.cos(angle) * distance;
-    const moveY = Math.sin(angle) * distance;
+function moveNoButton() {
+    const isMobile = window.innerWidth <= 600;
+    const btnRect = noBtn.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Smaller distance on mobile to prevent going off-screen
+    const maxDistance = isMobile ? 80 : 200;
+    const minDistance = isMobile ? 60 : 200;
+    
+    let moveX, moveY;
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    // Try to find a position that keeps button on screen
+    do {
+        const distance = Math.random() * (maxDistance - minDistance) + minDistance;
+        const angle = Math.random() * Math.PI * 2;
+        
+        moveX = Math.cos(angle) * distance;
+        moveY = Math.sin(angle) * distance;
+        
+        // Calculate new position
+        const newLeft = btnRect.left + moveX;
+        const newRight = btnRect.right + moveX;
+        const newTop = btnRect.top + moveY;
+        const newBottom = btnRect.bottom + moveY;
+        
+        // Check if button would stay on screen
+        const isOnScreen = newLeft > 20 && 
+                          newRight < windowWidth - 20 && 
+                          newTop > 20 && 
+                          newBottom < windowHeight - 20;
+        
+        if (isOnScreen) break;
+        
+        attempts++;
+    } while (attempts < maxAttempts);
 
     noBtn.style.transition = "transform 0.3s ease";
     noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+}
+
+// For desktop (hover)
+noBtn.addEventListener("mouseover", moveNoButton);
+
+// For mobile (touch/click)
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // Prevent click event from also firing
+    moveNoButton();
+});
+
+noBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent any default action
+    moveNoButton();
 });
 
 // Logic to make YES btn to grow
