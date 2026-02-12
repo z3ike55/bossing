@@ -5,7 +5,10 @@ body {
     justify-content: center;
     align-items: center;
     background-image: url("heart-bg.jpg");
+    background-size: cover;
+    background-position: center;
     font-family: "Pixelify Sans", sans-serif;
+    padding: 10px;
 }
 
 /* Envelope Screen */
@@ -27,9 +30,14 @@ body {
 }
 
 #envelope{
-    width: 200px;
+    width: clamp(150px, 40vw, 200px);
     animation: pulse 1.5s infinite;
     cursor: pointer;
+}
+
+#envelope-container p {
+    font-size: clamp(24px, 6vw, 40px);
+    margin-top: 10px;
 }
 
 #letter-container{
@@ -38,6 +46,7 @@ body {
     inset: 0;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .letter-window{
@@ -69,32 +78,34 @@ body {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: clamp(20px, 5vw, 30px);
     margin:0;
+    padding: 0 10px;
 }
 
 p {
-    font-size: 40px;
+    font-size: clamp(24px, 6vw, 40px);
 }
 
 /* Cat */
 
 .cat {
-    width: 250px;
+    width: clamp(150px, 40vw, 250px);
     margin: 10px 0;
     transition: width 0.4s ease;
 }
 
 .letter-window.final .cat {
-    width: 180px;
+    width: clamp(120px, 30vw, 180px);
 }
 
 /* buttons */
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: clamp(15px, 5vw, 30px);
     position: relative;
+    flex-wrap: wrap;
 }
 
 .no-wrapper{
@@ -102,16 +113,16 @@ p {
 }
 
 .btn {
-    width: 120px;
+    width: clamp(80px, 20vw, 120px);
     cursor: pointer;
     user-select: none;
 }
 
 .yes-btn,
 .no-btn {
-width: 120px;
-height: auto;
-display: inline-block;
+    width: clamp(80px, 20vw, 120px);
+    height: auto;
+    display: inline-block;
 }
 
 .yes-btn {
@@ -129,11 +140,38 @@ display: inline-block;
 }
 
 .final-text{
-    font-size: 22px;
+    font-size: clamp(16px, 4vw, 22px);
     line-height: 1.4;
     text-align: center;
     display: inline-block;
     padding: 10px 20px;
     background-color: rgba(255,240,240,0.5);
     border-radius: 12px;
+    max-width: 90%;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 600px) {
+    .letter-window {
+        padding-top: clamp(100px, 25vw, 180px);
+        gap: 5px;
+    }
+    
+    body {
+        padding: 5px;
+    }
+    
+    #letter-container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .letter-window {
+        padding-top: clamp(80px, 22vw, 120px);
+    }
+    
+    .cat {
+        margin: 5px 0;
+    }
 }
